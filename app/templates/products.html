@@ -1,0 +1,56 @@
+{% extends 'base.html' %}{% block title %}Productos{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <span class="eyebrow">CATÁLOGO</span>
+    <h1>Productos para tu bienestar</h1>
+    <p>Explora productos disponibles en nuestro catálogo. Consulta precio y disponibilidad en tu tienda.</p>
+  </div>
+</section>
+
+<section class="section catalog-section">
+  <form class="catalog-toolbar" method="get">
+    <label class="search-box">
+      <span>⌕</span>
+      <input name="q" value="{{ search }}" placeholder="Buscar productos">
+    </label>
+    <select name="categoria" onchange="this.form.submit()">
+      <option value="">Todas las categorías</option>
+      {% for c in categories %}
+      <option value="{{ c }}" {% if category == c %}selected{% endif %}>{{ c }}</option>
+      {% endfor %}
+    </select>
+    <button class="button primary" type="submit">Buscar</button>
+  </form>
+
+  <div class="product-grid">
+    {% for p in products %}
+    <article class="product-card">
+      <div class="product-visual">
+        <img class="product-img" src="{{ url_for('static', filename='img/' ~ (p.sku|upper) ~ '.jpg') }}"
+             alt="{{ p.name }}" loading="lazy"
+             onerror="this.onerror=null; this.hidden=true; this.nextElementSibling.hidden=false;">
+        <span class="product-symbol" hidden aria-hidden="true">✚</span>
+        <span class="product-category">{{ p.category }}</span>
+      </div>
+      <div class="product-info">
+        <small>{{ p.category }}</small>
+        <h3>{{ p.name }}</h3>
+        <p>{{ p.presentation }}</p>
+        <div class="product-bottom">
+          <b>S/ {{ '%.2f'|format(p.price) }}</b>
+          <span>Consultar en tienda</span>
+        </div>
+      </div>
+    </article>
+    {% else %}
+    <div class="catalog-empty">
+      <span class="product-symbol">⌕</span>
+      <h3>No encontramos productos</h3>
+      <p>Prueba otra búsqueda o vuelve a ver todas las categorías.</p>
+      <a href="{{ url_for('main.inventory') }}">Limpiar filtros</a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Administrar productos{% endblock %}
+{% block content %}
+<section class="section admin-section">
+<div class="admin-heading"><div><span class="eyebrow">INVENTARIO</span><h1>Administrar medicamentos</h1><p>Registra, consulta, modifica y elimina productos de la farmacia.</p></div>
+<div class="admin-actions"><a class="button primary" href="{{ url_for('main.admin_product_new') }}">＋ Nuevo medicamento</a>
+<form method="post" action="{{ url_for('main.admin_logout') }}"><button class="button outline-red">Cerrar sesión</button></form></div></div>
+<div class="admin-table-wrap"><table class="admin-table">
+<thead><tr><th>SKU</th><th>Medicamento</th><th>Categoría</th><th>Stock</th><th>Precio</th><th>Acciones</th></tr></thead>
+<tbody>{% for p in products %}<tr><td>{{ p.sku }}</td><td><strong>{{ p.name }}</strong><small>{{ p.presentation }}</small></td><td>{{ p.category }}</td><td>{{ p.stock }}</td><td>S/ {{ '%.2f'|format(p.price) }}</td>
+<td class="table-actions"><a class="button small outline-red" href="{{ url_for('main.admin_product_edit', product_id=p.id) }}">Editar</a>
+<form method="post" action="{{ url_for('main.admin_product_delete', product_id=p.id) }}" onsubmit="return confirm('¿Eliminar este medicamento?');"><button class="button small danger" type="submit">Eliminar</button></form></td></tr>
+{% else %}<tr><td colspan="6" class="empty-cell">Todavía no hay medicamentos registrados.</td></tr>{% endfor %}</tbody></table></div>
+<p class="admin-note">Los cambios se guardan directamente en la base de datos compartida de Amazon RDS.</p>
+</section>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Acceso administrativo{% endblock %}
+{% block content %}
+<section class="section admin-section"><div class="admin-panel admin-login">
+<span class="eyebrow">ÁREA PRIVADA</span><h1>Administración de farmacia</h1>
+<p>Ingresa para gestionar el inventario de medicamentos.</p>
+<form method="post" class="admin-form">
+<label>Usuario<input name="username" required autocomplete="username"></label>
+<label>Contraseña<input name="password" type="password" required autocomplete="current-password"></label>
+<button class="button primary" type="submit">Ingresar</button>
+</form></div></section>
+{% endblock %}

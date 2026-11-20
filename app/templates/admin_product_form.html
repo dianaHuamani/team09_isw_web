@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Editar' if product else 'Nuevo' }} medicamento{% endblock %}
+{% block content %}
+<section class="section admin-section"><div class="admin-panel">
+<span class="eyebrow">INVENTARIO</span><h1>{{ 'Editar medicamento' if product else 'Registrar medicamento' }}</h1>
+<form method="post" class="admin-form product-admin-form">
+<label>SKU / Código<input name="sku" maxlength="32" required value="{{ product.sku if product else '' }}"></label>
+<label>Nombre del medicamento<input name="name" maxlength="140" required value="{{ product.name if product else '' }}"></label>
+<label>Categoría<select name="category_id" required><option value="">Selecciona una categoría</option>{% for c in categories %}<option value="{{ c.id }}" {% if product and product.category_id == c.id %}selected{% endif %}>{{ c.name }}</option>{% endfor %}</select></label>
+<label>Presentación<input name="presentation" maxlength="80" required value="{{ product.presentation if product else 'Unidad' }}"></label>
+<label>Stock<input name="stock" type="number" min="0" required value="{{ product.stock if product else 0 }}"></label>
+<label>Stock mínimo<input name="min_stock" type="number" min="0" required value="{{ product.min_stock if product else 5 }}"></label>
+<label>Precio (S/)<input name="price" type="number" min="0" step="0.01" required value="{{ product.price if product else '0.00' }}"></label>
+<label>Fecha de vencimiento<input name="expiry_date" type="date" value="{{ product.expiry_date.isoformat() if product and product.expiry_date else '' }}"></label>
+<div class="form-actions"><button class="button primary" type="submit">{{ 'Guardar cambios' if product else 'Registrar medicamento' }}</button><a class="button outline-red" href="{{ url_for('main.admin_products') }}">Cancelar</a></div>
+</form></div></section>
+{% endblock %}

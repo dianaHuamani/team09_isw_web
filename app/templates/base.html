@@ -1,0 +1,128 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e11d3f">
+  <meta name="description" content="Productos de salud y bienestar, servicios y atención cercana.">
+
+  <title>{% block title %}Salud y bienestar{% endblock %} | Inkafarma</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+  <div class="announcement">
+    Cuidamos de ti y de los que más quieres <span>♥</span>
+  </div>
+
+  <header class="site-header">
+    <div class="header-inner">
+
+      <a class="brand" href="{{ url_for('main.dashboard') }}">
+        <span class="brand-mark">+</span>
+        <span>Inka<span>farma</span></span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir navegación">
+        ☰
+      </button>
+
+      <nav id="mainNav">
+        <a class="{% if request.endpoint == 'main.dashboard' %}active{% endif %}"
+           href="{{ url_for('main.dashboard') }}">
+          Inicio
+        </a>
+
+        <a class="{% if request.endpoint == 'main.inventory' %}active{% endif %}"
+           href="{{ url_for('main.inventory') }}">
+          Productos
+        </a>
+
+        <a class="{% if request.endpoint == 'main.appointments' %}active{% endif %}"
+           href="{{ url_for('main.appointments') }}">
+          Citas médicas
+        </a>
+
+        <a class="{% if request.endpoint == 'main.contacts' %}active{% endif %}"
+           href="{{ url_for('main.contacts') }}">
+          Contáctanos
+        </a>
+
+        <a class="{% if request.endpoint in ['main.admin_login', 'main.admin_products', 'main.admin_product_new', 'main.admin_product_edit'] %}active{% endif %}"
+           href="{{ url_for('main.admin_login') }}">
+          Iniciar sesión
+        </a>
+      </nav>
+
+      <a class="header-cta" href="{{ url_for('main.appointments') }}">
+        Agendar una cita <span>→</span>
+      </a>
+
+    </div>
+  </header>
+
+  <main>
+    {% with notices = get_flashed_messages(with_categories=true) %}
+      {% if notices %}
+        <div class="flash-stack">
+          {% for category, message in notices %}
+            <div class="flash {{ category }}">
+              {{ message }}
+              <button type="button" class="flash-close" aria-label="Cerrar">×</button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+        <a class="brand" href="{{ url_for('main.dashboard') }}">
+          <span class="brand-mark">+</span>
+          <span>Inka<span>farma</span></span>
+        </a>
+        <p>Cerca de ti, cuidando de tu salud y bienestar cada día.</p>
+      </div>
+
+      <div>
+        <b>Explora</b>
+        <a href="{{ url_for('main.inventory') }}">Productos</a>
+        <a href="{{ url_for('main.appointments') }}">Citas médicas</a>
+        <a href="{{ url_for('main.contacts') }}">Contáctanos</a>
+      </div>
+
+      <div>
+        <b>Atención</b>
+        <span>Lunes a sábado</span>
+        <span>8:00 a. m. – 8:00 p. m.</span>
+        <span>Consulta disponibilidad en tienda</span>
+      </div>
+
+      <div>
+        <b>Estamos para ayudarte</b>
+        <span>Central de atención</span>
+        <a href="tel:+51016421100">(01) 642-1100</a>
+        <a href="mailto:contacto@inkafarma.pe">contacto@inkafarma.pe</a>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>© {{ today.year }} Inkafarma · Sitio demostrativo</span>
+      <span>La disponibilidad y los precios pueden variar según la tienda.</span>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
